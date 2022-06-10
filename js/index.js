@@ -1,40 +1,27 @@
 (function (window){
 
-  var Sakri = window.Sakri || {};
-  window.Sakri = window.Sakri || Sakri;
+  var flappygame = window.flappygame || {};
+  window.flappygame = window.flappygame || flappygame;
     
-	Sakri.MathUtil = {};
-	
-	//used for radiansToDegrees and degreesToRadians
-	Sakri.MathUtil.PI_180 = Math.PI/180;
-	Sakri.MathUtil.ONE80_PI = 180/Math.PI;
-	
-	//precalculations for values of 90, 270 and 360 in radians
-	Sakri.MathUtil.PI2 = Math.PI*2;
-	Sakri.MathUtil.HALF_PI = Math.PI/2;
-
-
-	//return number between 1 and 0
-	Sakri.MathUtil.normalize = function(value, minimum, maximum){
+	flappygame.MathUtil = {};
+	flappygame.MathUtil.PI_180 = Math.PI/180;
+	flappygame.MathUtil.ONE80_PI = 180/Math.PI;
+	flappygame.MathUtil.PI2 = Math.PI*2;
+	flappygame.MathUtil.HALF_PI = Math.PI/2;
+	flappygame.MathUtil.normalize = function(value, minimum, maximum){
 		return (value - minimum) / (maximum - minimum);
 	};
-
-	//map normalized number to values
-	Sakri.MathUtil.interpolate = function(normValue, minimum, maximum){
+	flappygame.MathUtil.interpolate = function(normValue, minimum, maximum){
 		return minimum + (maximum - minimum) * normValue;
 	};
-
-	//map a value from one set to another
-	Sakri.MathUtil.map = function(value, min1, max1, min2, max2){
-		return Sakri.MathUtil.interpolate( Sakri.MathUtil.normalize(value, min1, max1), min2, max2);
+	flappygame.MathUtil.map = function(value, min1, max1, min2, max2){
+		return flappygame.MathUtil.interpolate( flappygame.MathUtil.normalize(value, min1, max1), min2, max2);
 	};
-
-	Sakri.MathUtil.getRandomNumberInRange = function(min, max){
+	flappygame.MathUtil.getRandomNumberInRange = function(min, max){
 		return min + Math.random() * (max - min);
 	};
-	
-	Sakri.MathUtil.getRandomIntegerInRange = function(min, max){
-		return Math.round(Sakri.MathUtil.getRandomNumberInRange(min, max));
+	flappygame.MathUtil.getRandomIntegerInRange = function(min, max){
+		return Math.round(flappygame.MathUtil.getRandomNumberInRange(min, max));
 	};
 
 	
@@ -42,48 +29,48 @@
 
 (function (window){
 
-    var Sakri = window.Sakri || {};
-    window.Sakri = window.Sakri || Sakri;
+    var flappygame = window.flappygame || {};
+    window.flappygame = window.flappygame || flappygame;
 
-  	Sakri.Geom = {};
+  	flappygame.Geom = {};
 
     //==================================================
-    //=====================::POINT::====================
+    //===================::得分Point::==================
     //==================================================
 
-    Sakri.Geom.Point = function (x,y){
+    flappygame.Geom.Point = function (x,y){
         this.x = isNaN(x) ? 0 : x;
         this.y = isNaN(y) ? 0 : y;
     };
 
-    Sakri.Geom.Point.prototype.clone = function(){
-        return new Sakri.Geom.Point(this.x,this.y);
+    flappygame.Geom.Point.prototype.clone = function(){
+        return new flappygame.Geom.Point(this.x,this.y);
     };
 
-    Sakri.Geom.Point.prototype.update = function(x, y){
+    flappygame.Geom.Point.prototype.update = function(x, y){
         this.x = isNaN(x) ? this.x : x;
         this.y = isNaN(y) ? this.y : y;
     };
 
-    Sakri.Geom.Point.prototype.equals = function(point){
+    flappygame.Geom.Point.prototype.equals = function(point){
         return this.x==point.x && this.y==point.y;
     };
 
-    Sakri.Geom.Point.prototype.toString = function(){
+    flappygame.Geom.Point.prototype.toString = function(){
         return "{x:"+this.x+" , y:"+this.y+"}";
     };
 
 
     
 	//==================================================
-	//===================::RECTANGLE::==================
+	//===========::游戏边框限制RECTANGLE::===============
 	//==================================================
 
-	Sakri.Geom.Rectangle = function (x, y, width, height){
+	flappygame.Geom.Rectangle = function (x, y, width, height){
 		this.update(x, y, width, height);
 	};
 	
-	Sakri.Geom.Rectangle.prototype.update = function(x, y, width, height){
+	flappygame.Geom.Rectangle.prototype.update = function(x, y, width, height){
 		this.x = isNaN(x) ? 0 : x;
 		this.y = isNaN(y) ? 0 : y;
 		this.width = isNaN(width) ? 0 : width;
@@ -91,53 +78,46 @@
 	};
 
   
-	Sakri.Geom.Rectangle.prototype.getRight = function(){
+	flappygame.Geom.Rectangle.prototype.getRight = function(){
 		return this.x + this.width;
 	};
 	
-	Sakri.Geom.Rectangle.prototype.getBottom = function(){
+	flappygame.Geom.Rectangle.prototype.getBottom = function(){
 		return this.y + this.height;
 	};
 
-    Sakri.Geom.Rectangle.prototype.getCenterX = function(){
+    flappygame.Geom.Rectangle.prototype.getCenterX = function(){
         return this.x + this.width/2;
     };
 
-    Sakri.Geom.Rectangle.prototype.getCenterY = function(){
+    flappygame.Geom.Rectangle.prototype.getCenterY = function(){
         return this.y + this.height/2;
     };
 
-    Sakri.Geom.Rectangle.prototype.containsPoint = function(x, y){
+    flappygame.Geom.Rectangle.prototype.containsPoint = function(x, y){
         return x >= this.x && y >= this.y && x <= this.getRight() && y <= this.getBottom();
     };
 
 	
-	Sakri.Geom.Rectangle.prototype.clone = function(){
-		return new Sakri.Geom.Rectangle(this.x, this.y, this.width, this.height);
+	flappygame.Geom.Rectangle.prototype.clone = function(){
+		return new flappygame.Geom.Rectangle(this.x, this.y, this.width, this.height);
 	};
 	
-	Sakri.Geom.Rectangle.prototype.toString = function(){
+	flappygame.Geom.Rectangle.prototype.toString = function(){
 		return "Rectangle{x:"+this.x+" , y:"+this.y+" , width:"+this.width+" , height:"+this.height+"}";
 	};
 	
 }(window));
 
-
-/**
- * Created by sakri on 27-1-14.
- * has a dependecy on Sakri.Geom
- * has a dependecy on Sakri.BitmapUtil
- */
-
 (function (window){
 
-    var Sakri = window.Sakri || {};
-    window.Sakri = window.Sakri || Sakri;
+    var flappygame = window.flappygame || {};
+    window.flappygame = window.flappygame || flappygame;
 
-    Sakri.CanvasTextUtil = {};
+    flappygame.CanvasTextUtil = {};
 
-    //returns the biggest font size that best fits into rect
-    Sakri.CanvasTextUtil.getFontSizeForRect = function(string, fontProps, rect, canvas, fillStyle){
+    //返回适合屏幕的最大尺寸
+    flappygame.CanvasTextUtil.getFontSizeForRect = function(string, fontProps, rect, canvas, fillStyle){
         if(!canvas){
             var canvas = document.createElement("canvas");
         }
@@ -149,12 +129,8 @@
         context.textBaseline = "top";
 
         var copy = fontProps.clone();
-        //console.log("getFontSizeForRect() 1  : ", copy.fontSize);
         context.font = copy.getFontString();
         var width = context.measureText(string).width;
-        //console.log(width, rect.width);
-
-        //SOME DISAGREEMENT WHETHER THIS SHOOULD BE WITH && or ||
         if(width < rect.width){
             while(context.measureText(string).width < rect.width || copy.fontSize*1.5 < rect.height){
                 copy.fontSize++;
@@ -166,69 +142,68 @@
                 context.font = copy.getFontString();
             }
         }
-        //console.log("getFontSizeForRect() 2  : ", copy.fontSize);
         return copy.fontSize;
     }
 
-    //=========================================================================================
-    //==============::CANVAS TEXT PROPERTIES::====================================
+    //========================================================
+    //==============::设置游戏界面属性::======================
     //========================================================
 
-    Sakri.CanvasTextProperties = function(fontWeight, fontStyle, fontSize, fontFace){
+    flappygame.CanvasTextProperties = function(fontWeight, fontStyle, fontSize, fontFace){
         this.setFontWeight(fontWeight);
         this.setFontStyle(fontStyle);
         this.setFontSize(fontSize);
         this.fontFace = fontFace ? fontFace : "sans-serif";
     };
 
-    Sakri.CanvasTextProperties.NORMAL = "normal";
-    Sakri.CanvasTextProperties.BOLD = "bold";
-    Sakri.CanvasTextProperties.BOLDER = "bolder";
-    Sakri.CanvasTextProperties.LIGHTER = "lighter";
+    flappygame.CanvasTextProperties.NORMAL = "normal";
+    flappygame.CanvasTextProperties.BOLD = "bold";
+    flappygame.CanvasTextProperties.BOLDER = "bolder";
+    flappygame.CanvasTextProperties.LIGHTER = "lighter";
 
-    Sakri.CanvasTextProperties.ITALIC = "italic";
-    Sakri.CanvasTextProperties.OBLIQUE = "oblique";
+    flappygame.CanvasTextProperties.ITALIC = "italic";
+    flappygame.CanvasTextProperties.OBLIQUE = "oblique";
 
 
-    Sakri.CanvasTextProperties.prototype.setFontWeight = function(fontWeight){
+    flappygame.CanvasTextProperties.prototype.setFontWeight = function(fontWeight){
         switch (fontWeight){
-            case Sakri.CanvasTextProperties.NORMAL:
-            case Sakri.CanvasTextProperties.BOLD:
-            case Sakri.CanvasTextProperties.BOLDER:
-            case Sakri.CanvasTextProperties.LIGHTER:
+            case flappygame.CanvasTextProperties.NORMAL:
+            case flappygame.CanvasTextProperties.BOLD:
+            case flappygame.CanvasTextProperties.BOLDER:
+            case flappygame.CanvasTextProperties.LIGHTER:
                 this.fontWeight = fontWeight;
                 break;
             default:
-                this.fontWeight = Sakri.CanvasTextProperties.NORMAL;
+                this.fontWeight = flappygame.CanvasTextProperties.NORMAL;
         }
     };
 
-    Sakri.CanvasTextProperties.prototype.setFontStyle = function(fontStyle){
+    flappygame.CanvasTextProperties.prototype.setFontStyle = function(fontStyle){
         switch (fontStyle){
-            case Sakri.CanvasTextProperties.NORMAL:
-            case Sakri.CanvasTextProperties.ITALIC:
-            case Sakri.CanvasTextProperties.OBLIQUE:
+            case flappygame.CanvasTextProperties.NORMAL:
+            case flappygame.CanvasTextProperties.ITALIC:
+            case flappygame.CanvasTextProperties.OBLIQUE:
                 this.fontStyle = fontStyle;
                 break;
             default:
-                this.fontStyle = Sakri.CanvasTextProperties.NORMAL;
+                this.fontStyle = flappygame.CanvasTextProperties.NORMAL;
         }
     };
 
-    Sakri.CanvasTextProperties.prototype.setFontSize = function(fontSize){
+    flappygame.CanvasTextProperties.prototype.setFontSize = function(fontSize){
         if(fontSize && fontSize.indexOf && fontSize.indexOf("px")>-1){
             var size = fontSize.split("px")[0];
-            fontProperites.fontSize = isNaN(size) ? 24 : size;//24 is just an arbitrary number
+            fontProperites.fontSize = isNaN(size) ? 24 : size;//24为随意数字
             return;
         }
-        this.fontSize = isNaN(fontSize) ? 24 : fontSize;//24 is just an arbitrary number
+        this.fontSize = isNaN(fontSize) ? 24 : fontSize;//24为随意数字
     };
 
-    Sakri.CanvasTextProperties.prototype.clone = function(){
-        return new Sakri.CanvasTextProperties(this.fontWeight, this.fontStyle, this.fontSize, this.fontFace);
+    flappygame.CanvasTextProperties.prototype.clone = function(){
+        return new flappygame.CanvasTextProperties(this.fontWeight, this.fontStyle, this.fontSize, this.fontFace);
     };
 
-    Sakri.CanvasTextProperties.prototype.getFontString = function(){
+    flappygame.CanvasTextProperties.prototype.getFontString = function(){
         return this.fontWeight + " " + this.fontStyle + " " + this.fontSize + "px " + this.fontFace;
     };
 
@@ -263,7 +238,7 @@ var readyStateCheckInterval = setInterval( function() {
 }, 10);
 
 //========================
-//general properties for demo set up
+//游戏Demo初始设置
 //========================
 
 var canvas;
@@ -290,7 +265,7 @@ function init(){
 function getWidth( element ){return Math.max(element.scrollWidth,element.offsetWidth,element.clientWidth );}
 function getHeight( element ){return Math.max(element.scrollHeight,element.offsetHeight,element.clientHeight );}
 
-//avoid running resize scripts repeatedly if a browser window is being resized by dragging
+//避免当通过拖动调整浏览器窗口的大小时，重复运行调整大小脚本
 function resizeHandler(){
     context.clearRect(0,0,canvas.width, canvas.height);
     clearTimeout(resizeTimeoutId);
@@ -307,7 +282,7 @@ function commitResize(){
     context = canvas.getContext("2d");
     canvasContainer.appendChild(canvas);
 
-    htmlBounds = new Sakri.Geom.Rectangle(0,0, getWidth(canvasContainer) , getHeight(canvasContainer));
+    htmlBounds = new flappygame.Geom.Rectangle(0,0, getWidth(canvasContainer) , getHeight(canvasContainer));
     if(htmlBounds.width >= maxStageWidth){
         canvas.width = maxStageWidth;
         canvas.style.left = htmlBounds.getCenterX() - (maxStageWidth/2)+"px";
@@ -322,7 +297,7 @@ function commitResize(){
         canvas.height = htmlBounds.height;
         canvas.style.top ="0px";
     }
-    bounds = new Sakri.Geom.Rectangle(0,0, canvas.width, canvas.height);
+    bounds = new flappygame.Geom.Rectangle(0,0, canvas.width, canvas.height);
     context.clearRect(0,0,canvas.width, canvas.height);
 
     if(bounds.width<minimumStageWidth || bounds.height<minimumStageHeight){
@@ -348,17 +323,17 @@ function stageTooSmallHandler(){
 
 
 //========================
-//Demo specific properties
+//游戏Demo特殊设置
 //========================
 
-
+//当用户未进行设置时自动生效
     var HOME = 0;
     var GAME = 1;
     var GAME_OVER = 2;
     var gameState;
     var scrollSpeed = 3;
     var score;
-    var fontProperties = new Sakri.CanvasTextProperties(Sakri.CanvasTextProperties.BOLD, null, 100);
+    var fontProperties = new flappygame.CanvasTextProperties(flappygame.CanvasTextProperties.BOLD, null, 100);
 
     var word = "吕灿";
 
@@ -458,7 +433,7 @@ function stageTooSmallHandler(){
 
     function renderGameOver(){
 
-        //game over logo
+        //加载游戏结束画面
         context.drawImage(gameOverCanvas, bounds.getCenterX() - logoCanvas.width/2, canvas.height *.2);
 
         var instruction = "单击重新开始";
@@ -497,7 +472,7 @@ function stageTooSmallHandler(){
     }
 
     //========================================================================
-    //========================:: LOGO ::======================================
+    //======================:: 游戏图标Logo ::================================
     //========================================================================
 
     var logoCanvas;
@@ -519,9 +494,9 @@ function stageTooSmallHandler(){
         logoDirection = 1;
         var logoContext = logoCanvas.getContext("2d");
         logoContext.textBaseline = "top";
-        var textRect = new Sakri.Geom.Rectangle(0, 0, logoCanvas.width * .8, logoCanvas.height);
+        var textRect = new flappygame.Geom.Rectangle(0, 0, logoCanvas.width * .8, logoCanvas.height);
         var logoFontProps = fontProperties.clone();
-        logoFontProps.fontSize = Sakri.CanvasTextUtil.getFontSizeForRect(logoText, fontProperties, textRect);
+        logoFontProps.fontSize = flappygame.CanvasTextUtil.getFontSizeForRect(logoText, fontProperties, textRect);
 
 
         var logoBGContext = logoCanvasBG.getContext("2d");
@@ -541,7 +516,7 @@ function stageTooSmallHandler(){
     }
 
     //========================================================================
-    //========================:: BIRD ::==================================
+    //======================:: 像素鸟场景设置 ::==============================
     //========================================================================
 
     var birdCanvas;
@@ -554,17 +529,17 @@ function stageTooSmallHandler(){
         characters[0].y += birdYSpeed;
         birdYSpeed += gravity;
 
-        //floor
+        //场景地面设置
         if(characters[0].y >= groundGraphicRect.y - birdCanvas.height){
             characters[0].y = groundGraphicRect.y - birdCanvas.height;
             birdYSpeed = 0;
         }
-        //celing
+        //场景高度设置
         if(characters[0].y<=0){
             characters[0].y = 1;
             birdYSpeed = 0;
         }
-        //tube collision
+        //水管碰撞体积判定
         if(!isHit && checkTubesCollision()){
             context.fillStyle = "#FFFFFF";
             context.fillRect(0,0,canvas.width, canvas.height);
@@ -575,7 +550,7 @@ function stageTooSmallHandler(){
 
     var currentTube;
     var isHit = false;
-    var ffScoreBugFix = 0;// for some reason the score would fire multiple times on firefox
+    var ffScoreBugFix = 0;// 防止火狐浏览器使用时分数多次出发bug
 
     function updateScore(){
         if(ffScoreBugFix>10 && currentTube.topRect.getRight() < characters[0].x){
@@ -601,7 +576,7 @@ function stageTooSmallHandler(){
 
     function removeCharacter(){
         if(characters.length==1){
-            //game over
+            //判定游戏结束
             gameState = GAME_OVER;
         }
         for(var i=0; i<characters.length-1;i++){
@@ -620,7 +595,7 @@ function stageTooSmallHandler(){
     }
 
 
-    var collisionPoint = new Sakri.Geom.Point();
+    var collisionPoint = new flappygame.Geom.Point();
     var birdPoints = [];
 
     function checkTubeCollision(tube){
@@ -643,8 +618,10 @@ function stageTooSmallHandler(){
     }
 
     var characters;
-    var birdFontProperties = new Sakri.CanvasTextProperties(Sakri.CanvasTextProperties.BOLD, null, 50);
-
+    var birdFontProperties = new flappygame.CanvasTextProperties(flappygame.CanvasTextProperties.BOLD, null, 50);
+	
+  //========================:: 创建角色 ::===============================
+  
     function createBird(){
 
         if(!birdCanvas){
@@ -668,7 +645,7 @@ function stageTooSmallHandler(){
             characters[i].image = createCharacterImage(word.charAt(word.length - i - 1));
         }
     }
-
+		
     function createCharacterImage(character){
         var birdContext = birdCanvas.getContext("2d");
         birdContext.textBaseline = "top";
@@ -678,7 +655,6 @@ function stageTooSmallHandler(){
         birdContext.fillRect(0, 0, birdSize, birdSize/2);
         birdContext.fillStyle = "#e97b13";
         birdContext.fillRect(0, birdSize/2, birdSize, birdSize/2);
-        //hilite
         birdContext.fillStyle = "#e0e9a9";
         birdContext.fillRect(0, 0, birdSize, 6);
         //"mouth"
@@ -702,21 +678,21 @@ function stageTooSmallHandler(){
 
 
     //========================================================================
-    //========================:: TUBES ::==================================
+    //==========================:: 水管 ::====================================
     //========================================================================
 
-    var tubeGapHeight = 230;//needs some logic
+    var tubeGapHeight = 230;
     var tubesGapWidth;
     var tubes;
-    var tubeWidth = 100;//needs some logic
-    var minTubeHeight = 50;//needs some logic
+    var tubeWidth = 100;
+    var minTubeHeight = 50;
 
     function updateTubes(){
         for(var i= 0; i<tubes.length;i++){
             updateTube(tubes[i]);
         }
     }
-
+    //=======================自动生产下一个水管==================================
     function updateTube(tube){
         tube.topRect.x -= scrollSpeed;
         tube.bottomRect.x = tube.topRect.x;
@@ -741,8 +717,8 @@ function stageTooSmallHandler(){
         for(var i = 0; i < totalTubes; i++){
             tubes[i] = {};
             tubes[i].canvas = document.createElement("canvas");
-            tubes[i].topRect = new Sakri.Geom.Rectangle(canvas.width+(i * tubesGapWidth));
-            tubes[i].bottomRect = new Sakri.Geom.Rectangle(canvas.width+(i * tubesGapWidth));
+            tubes[i].topRect = new flappygame.Geom.Rectangle(canvas.width+(i * tubesGapWidth));
+            tubes[i].bottomRect = new flappygame.Geom.Rectangle(canvas.width+(i * tubesGapWidth));
             renderTube(tubes[i]);
         }
         currentTube = tubes[0];
@@ -765,11 +741,11 @@ function stageTooSmallHandler(){
 
         var tubeContext = tube.canvas.getContext("2d");
         tubeContext.lineWidth = 2;
-        //top tube
+        //顶部水管
         renderTubeElement(tubeContext , 3, 0, tubeWidth-6, tube.topRect.height);
         renderTubeElement(tubeContext , 1, tube.topRect.getBottom() - tubeCapHeight, tubeWidth-2, tubeCapHeight);
 
-        //bottom tube
+        //底部水管
         renderTubeElement(tubeContext , 3, tube.bottomRect.y, tubeWidth-6, tube.bottomRect.height);
         renderTubeElement(tubeContext , 1, tube.bottomRect.y, tubeWidth-2, tubeCapHeight);
     }
@@ -809,7 +785,7 @@ function createCityGraphic(){
     var cgContext = cityGraphicCanvas.getContext("2d");
     var cityGraphicHeight = canvas.height * .25;
 
-    //fill with blue sky
+    //天空背景填充
     cgContext.fillStyle = "#71c5cf";
     cgContext.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -818,26 +794,26 @@ function createCityGraphic(){
     cgContext.save();
     cgContext.translate(0, groundGraphicRect.y - cityGraphicHeight);
 
-    //CLOUDS
+    //云朵生成
     var maxCloudRadius = cityGraphicHeight * .4;
     var minCloudRadius = maxCloudRadius * .5;
 
     for(iterator=0; iterator<canvas.width; iterator+=minCloudRadius){
         cgContext.beginPath();
-        cgContext.arc( iterator , maxCloudRadius, Sakri.MathUtil.getRandomNumberInRange(minCloudRadius, maxCloudRadius), 0, Sakri.MathUtil.PI2);
+        cgContext.arc( iterator , maxCloudRadius, flappygame.MathUtil.getRandomNumberInRange(minCloudRadius, maxCloudRadius), 0, flappygame.MathUtil.PI2);
         cgContext.closePath();
         cgContext.fill();
     }
 
     cgContext.fillRect(0,maxCloudRadius, canvas.width, cityGraphicHeight );
 
-    //HOUSES
+    //房屋生成
     var houseWidth;
     var houseHeight;
     cgContext.fillStyle = "#deefcb";
     for(iterator=0; iterator<canvas.width; iterator+=(houseWidth+8)){
         houseWidth = 20 + Math.floor(Math.random()*30);
-        houseHeight = Sakri.MathUtil.getRandomNumberInRange(cityGraphicHeight *.5 , cityGraphicHeight - maxCloudRadius *.8);
+        houseHeight = flappygame.MathUtil.getRandomNumberInRange(cityGraphicHeight *.5 , cityGraphicHeight - maxCloudRadius *.8);
         cgContext.fillRect(iterator, cityGraphicHeight - houseHeight, houseWidth, houseHeight);
     }
 
@@ -846,12 +822,12 @@ function createCityGraphic(){
     cgContext.lineWidth = 3;
     for(iterator=0; iterator<canvas.width; iterator+=(houseWidth+8)){
         houseWidth = 20 + Math.floor(Math.random()*30);
-        houseHeight = Sakri.MathUtil.getRandomNumberInRange(cityGraphicHeight *.5 , cityGraphicHeight - maxCloudRadius *.8);
+        houseHeight = flappygame.MathUtil.getRandomNumberInRange(cityGraphicHeight *.5 , cityGraphicHeight - maxCloudRadius *.8);
         cgContext.fillRect(iterator, cityGraphicHeight - houseHeight, houseWidth, houseHeight);
         cgContext.strokeRect(iterator, cityGraphicHeight - houseHeight, houseWidth, houseHeight);
     }
 
-    //TREES
+    //树木生成
     var maxTreeRadius = cityGraphicHeight * .3;
     var minTreeRadius = maxTreeRadius * .5;
     var radius;
@@ -861,8 +837,8 @@ function createCityGraphic(){
     cgContext.strokeStyle = "#72c887";
     for(iterator=0; iterator<canvas.width; iterator+=minTreeRadius){
         cgContext.beginPath();
-        radius = Sakri.MathUtil.getRandomNumberInRange(minCloudRadius, maxCloudRadius)
-        cgContext.arc( iterator , cityGraphicHeight, radius, 0, Sakri.MathUtil.PI2);
+        radius = flappygame.MathUtil.getRandomNumberInRange(minCloudRadius, maxCloudRadius)
+        cgContext.arc( iterator , cityGraphicHeight, radius, 0, flappygame.MathUtil.PI2);
         cgContext.closePath();
         cgContext.fill();
 
@@ -873,7 +849,7 @@ function createCityGraphic(){
     }
 
     cgContext.restore();
-    //sand
+    //沙子生成
     cgContext.fillStyle = sand;
     cgContext.fillRect(0,groundGraphicRect.y, canvas.width, canvas.height);
 
@@ -882,7 +858,7 @@ function createCityGraphic(){
 
 
     //========================================================================
-    //========================:: GROUND ::==================================
+    //========================:: 游戏地面 ::==================================
     //========================================================================
 
     var groundX = 0;
@@ -893,14 +869,14 @@ function createCityGraphic(){
     }
 
 
-    //colors
+    //颜色设置
     var groundLightGreen = "#97e556";
     var groundDarkGreen = "#73be29";
     var groundDarkerGreen = "#4b7e19";
     var groundShadow = "#d1a649";
     var groundBorder = "#4c3f48";
     var sand = "#dcd795";
-    var groundGraphicRect = new Sakri.Geom.Rectangle();
+    var groundGraphicRect = new flappygame.Geom.Rectangle();
     var groundPatternCanvas;
 
     function createGroundPattern(){
@@ -914,7 +890,7 @@ function createCityGraphic(){
         groundContext.fillStyle = groundLightGreen;
         groundContext.fillRect(0,0,16,16);
 
-        //diagonal graphic
+        //对角线图形
         groundContext.fillStyle = groundDarkGreen;
         groundContext.beginPath();
         groundContext.moveTo(8,3);
@@ -924,7 +900,7 @@ function createCityGraphic(){
         groundContext.closePath();
         groundContext.fill();
 
-        //top border
+        //顶部边框
         groundContext.fillStyle = groundBorder;
         groundContext.globalAlpha = .2;
         groundContext.fillRect(0,0,16,1);
@@ -933,19 +909,19 @@ function createCityGraphic(){
         groundContext.globalAlpha = .6;
         groundContext.fillRect(0,2,16,1);
 
-        //hilite
+        //亮部
         groundContext.fillStyle = "#FFFFFF";
         groundContext.globalAlpha = .3;
         groundContext.fillRect(0,3,16,2);
 
-        //bottom border
+        //底部边框
         groundContext.fillStyle = groundDarkerGreen;
         groundContext.globalAlpha = .3;
         groundContext.fillRect(0,10,16,3);
         groundContext.globalAlpha = 1;
         groundContext.fillRect(0,11,16,1);
 
-        //shadow
+        //阴影
         groundContext.fillStyle = groundShadow;
         groundContext.fillRect(0,13,16,3);
 
